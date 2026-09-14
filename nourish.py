@@ -1,0 +1,25 @@
+print("================================")
+print("           NOURISH")
+print("    Personalized Food Planner")
+print("================================")
+
+name = input("What is your name? ")
+date_of_birth = input("What is your date of birth? ")
+country = input("What country do you live in? ")
+occupation = input("What type of work do you do? ")
+goal = input("What is your nutrition goal? ")
+
+print()
+print("================================")
+print("       YOUR NOURISH PROFILE")
+print("================================")
+
+print("Name:", name)
+print("Date of Birth:", date_of_birth)
+print("Country:", country)
+print("Occupation:", occupation)
+print("Goal:", goal)
+
+print()
+print("Nourish is preparing your")
+print("personalized recommendations...")
