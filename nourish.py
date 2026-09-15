@@ -8,7 +8,7 @@ print("    Personalized Food Planner")
 print("================================")
 
 name = input("What is your name?: ")
-date_of_birth = input("What is your date of birth?: ")
+date_of_birth = input("What is your date of birth? (dd/mm/yyyy): ")
 country = input("What country do you live in?: ")
 
 print()
@@ -129,17 +129,55 @@ print(nutrition_goal)
 print()
 
 for food in foods:
+
+    score = 0
+
+    # GOAL
     if nutrition_goal == "Build muscle":
-        if "Protein" in food["classes"]:
-            print("-", food["name"])
+        if food["class"] == "Protein":
+            score += 2
 
     elif nutrition_goal == "Gain weight":
         if food["calories"] >= 120:
-            print("-", food["name"])
+            score += 2
 
     elif nutrition_goal == "Lose weight":
-        if food["calories"] <= 130:
-            print("-", food["name"])
+        if food["fiber"] >= 2:
+            score += 2
 
-    else:
-        print("-", food["name"])
+    elif nutrition_goal == "Eat healthier":
+        if food["class"] in ["Protein", "Fruit", "Vegetable"]:
+            score += 2
+
+    elif nutrition_goal == "Maintain my current weight":
+        if 80 <= food["calories"] <= 180:
+            score += 2
+
+    elif nutrition_goal == "Create a regular eating schedule":
+        if food["class"] in ["Protein", "Fruit", "Vegetable", "Carbohydrate"]:
+            score += 1
+
+
+    # ACTIVITY
+    if activity_type == "High physical activity":
+        if food["class"] == "Carbohydrate":
+            score += 1
+        elif food["class"] == "Protein":
+            score += 1
+
+    elif activity_type == "Light physical activity":
+        if food["class"] in ["Protein", "Fruit", "Vegetable"]:
+            score += 1
+
+    elif activity_type == "Low physical activity":
+        if food["fiber"] >= 2:
+            score += 1
+
+    elif activity_type == "Night-shift work":
+        if food["class"] in ["Protein", "Fruit", "Vegetable"]:
+            score += 1
+
+
+    # SHOW RECOMMENDATION
+    if score > 0:
+        print("-", food["name"], "| Score:", score)
