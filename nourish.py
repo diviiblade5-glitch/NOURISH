@@ -297,12 +297,14 @@ for food in foods:
 
     if score > 0:
 
-        recommendations.append({
-            "name": food["name"],
-            "score": score,
-            "reasons": reasons
-        })
-
+     recommendations.append({
+    "name": food["name"],
+    "score": score,
+    "reasons": reasons,
+    "protein": food["protein"],
+    "carbohydrates": food["carbohydrates"],
+    "fat": food["fat"]
+ })
 
 # -----------------------------
 # SORT RECOMMENDATIONS
@@ -333,9 +335,10 @@ print(activity_type)
 
 print()
 print("Top Nourish Recommendations:")
+print()
 
 
-for recommendation in recommendations:
+for recommendation in recommendations[:3]:
 
     print(
         "-",
@@ -343,3 +346,28 @@ for recommendation in recommendations:
         "| Score:",
         recommendation["score"]
     )
+
+    print(
+        "  Protein:",
+        recommendation["protein"],
+        "g"
+    )
+
+    print(
+        "  Carbohydrates:",
+        recommendation["carbohydrates"],
+        "g"
+    )
+
+    print(
+        "  Fat:",
+        recommendation["fat"],
+        "g"
+    )
+
+    print("  Why Nourish recommends it:")
+
+    for reason in recommendation["reasons"]:
+        print("   -", reason)
+
+    print()
