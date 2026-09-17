@@ -1,24 +1,33 @@
 from db import foods
 
 
+print("==============================")
+print("          NOURISH")
+print("   Personalized Food Planner")
+print("==============================")
 
-print("================================")
-print("           NOURISH")
-print("    Personalized Food Planner")
-print("================================")
+
+# -----------------------------
+# USER INFORMATION
+# -----------------------------
 
 name = input("What is your name?: ")
 date_of_birth = input("What is your date of birth? (dd/mm/yyyy): ")
-country = input("What country do you live in?: ")
+country = input("Which country do you live in?: ")
+
+
+# -----------------------------
+# WORK ACTIVITY
+# -----------------------------
 
 print()
-print(f"What best describes your usual work activity?\n"
-      f"1. Mostly sitting or desk work\n"
-      f"2. Mostly standing or light walking\n"
-      f"3. Physically demanding work\n"
-      f"4. Regular sports or gym training\n"
-      f"5. Night-shift work\n"
-      f"6. My activity varies")
+print("What best describes your usual work activity?")
+print("1. Mostly sitting or desk work")
+print("2. Mostly standing or light walking")
+print("3. Physically demanding work")
+print("4. Regular sports or gym training")
+print("5. Night-shift work")
+print("6. My activity varies")
 
 activity = input("Choose an option (1-6): ")
 
@@ -45,14 +54,18 @@ else:
     activity_type = "Not specified"
 
 
+# -----------------------------
+# NUTRITION GOAL
+# -----------------------------
+
 print()
-print(f"What is your nutrition goal?\n"
-f"1. Eat healthier\n"
-f"2. Lose weight\n"
-f"3. Gain weight\n" 
-f"4. Build muscle\n"
-f"5. Maintain my current weight\n"
-f"6. Create a regular eating schedule")
+print("What is your nutrition goal?")
+print("1. Eat healthier")
+print("2. Lose weight")
+print("3. Gain weight")
+print("4. Build muscle")
+print("5. Maintain my current weight")
+print("6. Create a regular eating schedule")
 
 goal = input("Choose an option (1-6): ")
 
@@ -79,6 +92,10 @@ else:
     nutrition_goal = "Not specified"
 
 
+# -----------------------------
+# NUTRITION FOCUS
+# -----------------------------
+
 if nutrition_goal == "Build muscle":
     nutrition_focus = "Protein and carbohydrates"
 
@@ -97,87 +114,232 @@ elif nutrition_goal == "Eat healthier":
 else:
     nutrition_focus = "Balanced nutrition"
 
+
+# -----------------------------
+# ACTIVITY FOCUS
+# -----------------------------
+
+if activity_type == "High physical activity":
+    activity_focus = "Focus on adequate energy, protein and carbohydrates"
+
+elif activity_type == "Light physical activity":
+    activity_focus = "Focus on balanced meals and adequate protein"
+
+elif activity_type == "Low physical activity":
+    activity_focus = "Focus on balanced meals, fiber, protein and appropriate portions"
+
+elif activity_type == "Night-shift work":
+    activity_focus = "Focus on balanced meals and consistent nutrition during shifts"
+
+elif activity_type == "Variable activity":
+    activity_focus = "Adjust food intake according to daily activity levels"
+
+else:
+    activity_focus = "Focus on balanced nutrition"
+
+
+# -----------------------------
+# PROFILE
+# -----------------------------
+
 print()
-print("================================")
+print("==============================")
 print("       YOUR NOURISH PROFILE")
-print("================================")
+print("==============================")
 
 print("Name:", name)
 print("Date of Birth:", date_of_birth)
 print("Country:", country)
 print("Work Activity:", activity_type)
 print("Goal:", nutrition_goal)
-print("Nutrion_goal:", nutrition_focus)
+print("Nutrition goal:", nutrition_focus)
+print("Activity Focus:", activity_focus)
+
+
+# -----------------------------
+# PREPARING RECOMMENDATIONS
+# -----------------------------
 
 print()
-print("Nourish is preparing your")
-print("personalized recommendations...")
 
+
+
+# -----------------------------
+# FOOD DATABASE
+# -----------------------------
+print("=========================")
+print("     AVAILABLE FOODS")
+print("=========================")
 print()
 print("Foods currently available to Nourish:")
 
 for food in foods:
     print("-", food["name"])
 
-print()
-print("==============================")
-print("     NOURISH RECOMMENDATIONS")
-print("==============================")
 
-print("Based on your nutrition goal:")
-print(nutrition_goal)
-print()
+# -----------------------------
+# CALCULATE FOOD SCORES
+# -----------------------------
+
+recommendations = []
+
 
 for food in foods:
 
     score = 0
+    reasons = []
 
-    # GOAL
+
+    # -------------------------
+    # GOAL SCORING
+    # -------------------------
+
     if nutrition_goal == "Build muscle":
-        if food["class"] == "Protein":
-            score += 2
+
+     if food["class"] == "Protein":
+        score += 3
+        reasons.append("Good source of protein")
+
+     if food["class"] == "Carbohydrate":
+        score += 1
+        reasons.append("Provides carbohydrates for energy")
+
 
     elif nutrition_goal == "Gain weight":
-        if food["calories"] >= 120:
-            score += 2
+
+     if food["protein"] >= 8:
+        score += 2
+        reasons.append("Good source of protein")
+
+     if food["carbohydrates"] >= 20:
+        score += 2
+        reasons.append("Provides carbohydrates for energy")
 
     elif nutrition_goal == "Lose weight":
-        if food["fiber"] >= 2:
-            score += 2
+
+     if food["class"] == "Protein":
+        score += 2
+        reasons.append("Provides protein")
+
+     if food["carbohydrates"] <= 20:
+        score += 1
+        reasons.append("Contains a moderate amount of carbohydrates")
 
     elif nutrition_goal == "Eat healthier":
-        if food["class"] in ["Protein", "Fruit", "Vegetable"]:
-            score += 2
+
+     if food["protein"] >= 5:
+        score += 1
+        reasons.append("Provides a good amount of protein")
+
+     if food["fat"] <= 10:
+        score += 1
+        reasons.append("Contains a moderate amount of fat")
+
 
     elif nutrition_goal == "Maintain my current weight":
-        if 80 <= food["calories"] <= 180:
-            score += 2
+
+     score += 1
+     reasons.append("Can contribute to a balanced diet")
+
 
     elif nutrition_goal == "Create a regular eating schedule":
-        if food["class"] in ["Protein", "Fruit", "Vegetable", "Carbohydrate"]:
-            score += 1
+
+     score += 1
+     reasons.append("Can be included in a regular meal")
 
 
-    # ACTIVITY
+    # -------------------------
+    # ACTIVITY SCORING
+    # -------------------------
+
     if activity_type == "High physical activity":
-        if food["class"] == "Carbohydrate":
-            score += 1
-        elif food["class"] == "Protein":
-            score += 1
+
+     if food["protein"] >= 8:
+        score += 2
+        reasons.append("Supports higher protein needs")
+
+     if food["carbohydrates"] >= 20:
+        score += 2
+        reasons.append("Provides energy for physical activity")
+
 
     elif activity_type == "Light physical activity":
-        if food["class"] in ["Protein", "Fruit", "Vegetable"]:
-            score += 1
+
+     if food["protein"] >= 5:
+        score += 1
+        reasons.append("Provides protein for daily activity")
+
 
     elif activity_type == "Low physical activity":
-        if food["fiber"] >= 2:
-            score += 1
+
+     if food["fat"] <= 10:
+        score += 1
+        reasons.append("Fits a lower-energy activity pattern")
+
 
     elif activity_type == "Night-shift work":
-        if food["class"] in ["Protein", "Fruit", "Vegetable"]:
-            score += 1
+
+     if food["protein"] >= 5:
+        score += 1
+        reasons.append("Provides protein during your work schedule")
 
 
-    # SHOW RECOMMENDATION
+    elif activity_type == "Variable activity":
+
+     if food["protein"] >= 5:
+        score += 1
+        reasons.append("Provides protein for varying activity levels")
+
+
+    # -------------------------
+    # ADD FOOD TO RECOMMENDATIONS
+    # -------------------------
+
     if score > 0:
-        print("-", food["name"], "| Score:", score)
+
+        recommendations.append({
+            "name": food["name"],
+            "score": score,
+            "reasons": reasons
+        })
+
+
+# -----------------------------
+# SORT RECOMMENDATIONS
+# -----------------------------
+
+recommendations.sort(
+    key=lambda food: food["score"],
+    reverse=True
+)
+
+
+# -----------------------------
+# DISPLAY RECOMMENDATIONS
+# -----------------------------
+
+print()
+print("==============================")
+print("     NOURISH RECOMMENDATIONS")
+print("==============================")
+print()
+print("Nourish is preparing your")
+print("personalized recommendations...")
+
+print()
+print("Based on your goal and activity:")
+print(nutrition_goal)
+print(activity_type)
+
+print()
+print("Top Nourish Recommendations:")
+
+
+for recommendation in recommendations:
+
+    print(
+        "-",
+        recommendation["name"],
+        "| Score:",
+        recommendation["score"]
+    )
