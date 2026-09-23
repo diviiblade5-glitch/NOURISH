@@ -7,18 +7,18 @@ print("   Personalized Food Planner")
 print("==============================")
 
 
-# -----------------------------
+# ----------------------------
 # USER INFORMATION
-# -----------------------------
+# ----------------------------
 
 name = input("What is your name?: ")
 date_of_birth = input("What is your date of birth? (dd/mm/yyyy): ")
 country = input("Which country do you live in?: ")
 
 
-# -----------------------------
+# ----------------------------
 # WORK ACTIVITY
-# -----------------------------
+# ----------------------------
 
 print()
 print("What best describes your usual work activity?")
@@ -54,9 +54,9 @@ else:
     activity_type = "Not specified"
 
 
-# -----------------------------
+# ----------------------------
 # NUTRITION GOAL
-# -----------------------------
+# ----------------------------
 
 print()
 print("What is your nutrition goal?")
@@ -92,9 +92,9 @@ else:
     nutrition_goal = "Not specified"
 
 
-# -----------------------------
+# ----------------------------
 # NUTRITION FOCUS
-# -----------------------------
+# ----------------------------
 
 if nutrition_goal == "Build muscle":
     nutrition_focus = "Protein and carbohydrates"
@@ -115,9 +115,9 @@ else:
     nutrition_focus = "Balanced nutrition"
 
 
-# -----------------------------
+# ----------------------------
 # ACTIVITY FOCUS
-# -----------------------------
+# ----------------------------
 
 if activity_type == "High physical activity":
     activity_focus = "Focus on adequate energy, protein and carbohydrates"
@@ -138,9 +138,9 @@ else:
     activity_focus = "Focus on balanced nutrition"
 
 
-# -----------------------------
+# ----------------------------
 # PROFILE
-# -----------------------------
+# ----------------------------
 
 print()
 print("==============================")
@@ -156,20 +156,20 @@ print("Nutrition goal:", nutrition_focus)
 print("Activity Focus:", activity_focus)
 
 
-# -----------------------------
+# ----------------------------
 # PREPARING RECOMMENDATIONS
-# -----------------------------
+# ----------------------------
 
 print()
 
-
-
-# -----------------------------
+# ----------------------------
 # FOOD DATABASE
-# -----------------------------
+# ----------------------------
+
 print("=========================")
 print("     AVAILABLE FOODS")
 print("=========================")
+
 print()
 print("Foods currently available to Nourish:")
 
@@ -177,138 +177,157 @@ for food in foods:
     print("-", food["name"])
 
 
-# -----------------------------
-# CALCULATE FOOD SCORES
-# -----------------------------
+# ----------------------------
+# CALCULATE FOOD SCORE
+# ----------------------------
+
+def calculate_score(food, nutrition_goal, activity_type):
+
+    score = 0
+    reasons = []
+
+
+    # ----------------------------
+    # GOAL SCORING
+    # ----------------------------
+
+    if nutrition_goal == "Build muscle":
+
+        if "Protein" in food["classes"]:
+            score += 3
+            reasons.append("Good source of protein")
+
+        if "Carbohydrates" in food["classes"]:
+            score += 1
+            reasons.append("Provides carbohydrates for energy")
+
+
+    elif nutrition_goal == "Gain weight":
+
+        if food["protein"] >= 8:
+            score += 2
+            reasons.append("Good source of protein")
+
+        if food["carbohydrates"] >= 20:
+            score += 2
+            reasons.append("Provides carbohydrates for energy")
+
+
+    elif nutrition_goal == "Lose weight":
+
+        if "Protein" in food["classes"]:
+            score += 2
+            reasons.append("Provides protein")
+
+        if food["carbohydrates"] <= 20:
+            score += 1
+            reasons.append("Contains a moderate amount of carbohydrates")
+
+
+    elif nutrition_goal == "Eat healthier":
+
+        if food["protein"] >= 5:
+            score += 1
+            reasons.append("Provides a good amount of protein")
+
+        if food["fat"] <= 10:
+            score += 1
+            reasons.append("Contains a moderate amount of fat")
+
+
+    elif nutrition_goal == "Maintain my current weight":
+
+        score += 1
+        reasons.append("Can contribute to a balanced diet")
+
+
+    elif nutrition_goal == "Create a regular eating schedule":
+
+        score += 1
+        reasons.append("Can be included in a regular meal")
+
+
+    # ----------------------------
+    # ACTIVITY SCORING
+    # ----------------------------
+
+    if activity_type == "High physical activity":
+
+        if food["protein"] >= 8:
+            score += 2
+            reasons.append("Supports higher protein needs")
+
+        if food["carbohydrates"] >= 20:
+            score += 2
+            reasons.append("Provides energy for physical activity")
+
+
+    elif activity_type == "Light physical activity":
+
+        if food["protein"] >= 5:
+            score += 1
+            reasons.append("Provides protein for daily activity")
+
+
+    elif activity_type == "Low physical activity":
+
+        if food["fat"] <= 10:
+            score += 1
+            reasons.append("Fits a lower-energy activity pattern")
+
+
+    elif activity_type == "Night-shift work":
+
+        if food["protein"] >= 5:
+            score += 1
+            reasons.append("Provides protein during your work schedule")
+
+
+    elif activity_type == "Variable activity":
+
+        if food["protein"] >= 5:
+            score += 1
+            reasons.append("Provides protein for varying activity levels")
+
+
+    return score, reasons
+
+
+# ----------------------------
+# CALCULATE RECOMMENDATIONS
+# ----------------------------
 
 recommendations = []
 
 
 for food in foods:
 
-    score = 0
-    reasons = []
+    score, reasons = calculate_score(
+        food,
+        nutrition_goal,
+        activity_type
+    )
 
 
-    # -------------------------
-    # GOAL SCORING
-    # -------------------------
-
-    if nutrition_goal == "Build muscle":
-
-     if food["class"] == "Protein":
-        score += 3
-        reasons.append("Good source of protein")
-
-     if food["class"] == "Carbohydrate":
-        score += 1
-        reasons.append("Provides carbohydrates for energy")
-
-
-    elif nutrition_goal == "Gain weight":
-
-     if food["protein"] >= 8:
-        score += 2
-        reasons.append("Good source of protein")
-
-     if food["carbohydrates"] >= 20:
-        score += 2
-        reasons.append("Provides carbohydrates for energy")
-
-    elif nutrition_goal == "Lose weight":
-
-     if food["class"] == "Protein":
-        score += 2
-        reasons.append("Provides protein")
-
-     if food["carbohydrates"] <= 20:
-        score += 1
-        reasons.append("Contains a moderate amount of carbohydrates")
-
-    elif nutrition_goal == "Eat healthier":
-
-     if food["protein"] >= 5:
-        score += 1
-        reasons.append("Provides a good amount of protein")
-
-     if food["fat"] <= 10:
-        score += 1
-        reasons.append("Contains a moderate amount of fat")
-
-
-    elif nutrition_goal == "Maintain my current weight":
-
-     score += 1
-     reasons.append("Can contribute to a balanced diet")
-
-
-    elif nutrition_goal == "Create a regular eating schedule":
-
-     score += 1
-     reasons.append("Can be included in a regular meal")
-
-
-    # -------------------------
-    # ACTIVITY SCORING
-    # -------------------------
-
-    if activity_type == "High physical activity":
-
-     if food["protein"] >= 8:
-        score += 2
-        reasons.append("Supports higher protein needs")
-
-     if food["carbohydrates"] >= 20:
-        score += 2
-        reasons.append("Provides energy for physical activity")
-
-
-    elif activity_type == "Light physical activity":
-
-     if food["protein"] >= 5:
-        score += 1
-        reasons.append("Provides protein for daily activity")
-
-
-    elif activity_type == "Low physical activity":
-
-     if food["fat"] <= 10:
-        score += 1
-        reasons.append("Fits a lower-energy activity pattern")
-
-
-    elif activity_type == "Night-shift work":
-
-     if food["protein"] >= 5:
-        score += 1
-        reasons.append("Provides protein during your work schedule")
-
-
-    elif activity_type == "Variable activity":
-
-     if food["protein"] >= 5:
-        score += 1
-        reasons.append("Provides protein for varying activity levels")
-
-
-    # -------------------------
+    # ----------------------------
     # ADD FOOD TO RECOMMENDATIONS
-    # -------------------------
+    # ----------------------------
 
     if score > 0:
 
-     recommendations.append({
-    "name": food["name"],
-    "score": score,
-    "reasons": reasons,
-    "protein": food["protein"],
-    "carbohydrates": food["carbohydrates"],
-    "fat": food["fat"]
- })
+        recommendations.append({
+            "name": food["name"],
+            "score": score,
+            "reasons": reasons,
+            "protein": food["protein"],
+            "carbohydrates": food["carbohydrates"],
+            "fat": food["fat"]
+        })
 
-# -----------------------------
+
+# ----------------------------
 # SORT RECOMMENDATIONS
-# -----------------------------
+# ----------------------------
 
 recommendations.sort(
     key=lambda food: food["score"],
@@ -316,24 +335,28 @@ recommendations.sort(
 )
 
 
-# -----------------------------
+# ----------------------------
 # DISPLAY RECOMMENDATIONS
-# -----------------------------
+# ----------------------------
 
 print()
 print("==============================")
 print("     NOURISH RECOMMENDATIONS")
 print("==============================")
+
 print()
+
 print("Nourish is preparing your")
 print("personalized recommendations...")
 
 print()
+
 print("Based on your goal and activity:")
 print(nutrition_goal)
 print(activity_type)
 
 print()
+
 print("Top Nourish Recommendations:")
 print()
 
@@ -370,4 +393,4 @@ for recommendation in recommendations[:3]:
     for reason in recommendation["reasons"]:
         print("   -", reason)
 
-    print()
+    print() 

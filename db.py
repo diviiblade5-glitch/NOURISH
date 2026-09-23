@@ -2,7 +2,7 @@ foods = [
 
     {
         "name": "Rice",
-        "class": "Carbohydrate",
+        "classes": ["Carbohydrate"],
         "protein": 2.7,
         "carbohydrates": 28,
         "fat": 0.3
@@ -10,7 +10,12 @@ foods = [
 
     {
         "name": "Beans",
-        "class": "Protein",
+        "classes": [
+            "Protein",
+            "Carbohydrates",
+            "Vitamins",
+            "Minerals"
+        ],
         "protein": 8.9,
         "carbohydrates": 23.7,
         "fat": 0.5
@@ -18,7 +23,7 @@ foods = [
 
     {
         "name": "Egg",
-        "class": "Protein",
+        "classes": ["Protein"],
         "protein": 12.6,
         "carbohydrates": 1.1,
         "fat": 10.6
@@ -26,7 +31,7 @@ foods = [
 
     {
         "name": "Sweet Potato",
-        "class": "Carbohydrate",
+        "classes": ["Carbohydrate"],
         "protein": 1.6,
         "carbohydrates": 20.1,
         "fat": 0.1
@@ -34,7 +39,7 @@ foods = [
 
     {
         "name": "Chicken",
-        "class": "Protein",
+        "classes": ["Protein"],
         "protein": 27,
         "carbohydrates": 0,
         "fat": 3.6
@@ -42,15 +47,18 @@ foods = [
 
     {
         "name": "Avocado",
-        "class": "Fat",
+        "classes": ["Fat"],
         "protein": 2,
-        "carbohydrates": 9,
-        "fat": 15
+        "carbohydrates": 8.5,
+        "fat": 14.7
     },
 
     {
         "name": "Banana",
-        "class": "Carbohydrate",
+        "classes": [
+            "Carbohydrate",
+            "Fruit"
+        ],
         "protein": 1.1,
         "carbohydrates": 23,
         "fat": 0.3
@@ -58,7 +66,11 @@ foods = [
 
     {
         "name": "Spinach",
-        "class": "Vegetable",
+        "classes": [
+            "Vegetable",
+            "Vitamins",
+            "Minerals"
+        ],
         "protein": 2.9,
         "carbohydrates": 3.6,
         "fat": 0.4
