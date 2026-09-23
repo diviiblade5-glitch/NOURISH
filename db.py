@@ -2,7 +2,7 @@ foods = [
 
     {
         "name": "Rice",
-        "classes": ["Carbohydrate"],
+        "classes": ["Carbohydrates"],
         "protein": 2.7,
         "carbohydrates": 28,
         "fat": 0.3
@@ -31,7 +31,7 @@ foods = [
 
     {
         "name": "Sweet Potato",
-        "classes": ["Carbohydrate"],
+        "classes": ["Carbohydrates"],
         "protein": 1.6,
         "carbohydrates": 20.1,
         "fat": 0.1
@@ -56,7 +56,7 @@ foods = [
     {
         "name": "Banana",
         "classes": [
-            "Carbohydrate",
+            "Carbohydrates",
             "Fruit"
         ],
         "protein": 1.1,

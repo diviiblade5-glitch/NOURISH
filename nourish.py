@@ -180,6 +180,92 @@ for food in foods:
 # ----------------------------
 # CALCULATE FOOD SCORE
 # ----------------------------
+def get_nutritional_needs(nutrition_goal, activity_type):
+
+    needs = []
+
+    if nutrition_goal == "Build muscle":
+        needs.append("Protein")
+        needs.append("Carbohydrates")
+
+    elif nutrition_goal == "Gain weight":
+        needs.append("Protein")
+        needs.append("Carbohydrates")
+        needs.append("Healthy fats")
+
+    elif nutrition_goal == "Lose weight":
+        needs.append("Protein")
+        needs.append("Fiber")
+
+    elif nutrition_goal == "Eat healthier":
+        needs.append("Protein")
+        needs.append("Vitamins")
+        needs.append("Minerals")
+        needs.append("Fiber")
+
+    elif nutrition_goal == "Maintain my current weight":
+        needs.append("Balanced nutrition")
+
+    elif nutrition_goal == "Create a regular eating schedule":
+        needs.append("Balanced meals")
+
+    # Activity can add another nutritional priority
+    if activity_type == "High physical activity":
+        needs.append("Energy")
+
+    elif activity_type == "Low physical activity":
+        needs.append("Moderate energy intake")
+
+    return needs
+
+nutritional_needs = get_nutritional_needs(
+    nutrition_goal,
+    activity_type
+)
+
+print()
+print("Nutritional needs:")
+for need in nutritional_needs:
+    print("-", need)
+
+def explain_food_classes(food):
+
+    benefits = []
+
+    if "Protein" in food["classes"]:
+        benefits.append(
+            "Provides protein to support muscle maintenance."
+        )
+
+    if "Carbohydrates" in food["classes"]:
+        benefits.append(
+            "Provides carbohydrates for energy."
+        )
+
+    if "Healthy fats" in food["classes"]:
+        benefits.append(
+            "Provides healthy fats that support normal body functions."
+        )
+
+    if "Vitamins" in food["classes"]:
+        benefits.append(
+            "Provides vitamins that support normal body functions and immune health."
+        )
+
+    if "Minerals" in food["classes"]:
+        benefits.append(
+            "Provides minerals that support bones, metabolism, and other body functions."
+        )
+
+    if "Fiber" in food["classes"]:
+        benefits.append(
+            "Provides dietary fiber that supports digestion."
+        )
+
+    return benefits
+
+
+
 
 def calculate_score(food, nutrition_goal, activity_type):
 
@@ -233,6 +319,13 @@ def calculate_score(food, nutrition_goal, activity_type):
         if food["fat"] <= 10:
             score += 1
             reasons.append("Contains a moderate amount of fat")
+        if "Vitamins" in food["classes"]:
+            score += 1
+            reasons.append("Provides vitamins")
+
+        if "Minerals" in food["classes"]:
+            score += 1
+            reasons.append("Provides minerals")
 
 
     elif nutrition_goal == "Maintain my current weight":
@@ -308,6 +401,9 @@ for food in foods:
         activity_type
     )
 
+    
+    benefits = explain_food_classes(food)
+
 
     # ----------------------------
     # ADD FOOD TO RECOMMENDATIONS
@@ -319,9 +415,11 @@ for food in foods:
             "name": food["name"],
             "score": score,
             "reasons": reasons,
+            "benefits": benefits,
             "protein": food["protein"],
             "carbohydrates": food["carbohydrates"],
             "fat": food["fat"]
+            
         })
 
 
@@ -393,4 +491,13 @@ for recommendation in recommendations[:3]:
     for reason in recommendation["reasons"]:
         print("   -", reason)
 
-    print() 
+    print()
+
+    print("  Nutritional benefits:")
+
+    for benefit in recommendation["benefits"]:
+        print("   -", benefit)
+
+    print()
+    print("--------------------------------")
+    print()
