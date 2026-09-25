@@ -265,6 +265,28 @@ def explain_food_classes(food):
     return benefits
 
 
+def check_nutritional_need(food, need):
+
+    if need == "Protein":
+        return "Protein" in food["classes"]
+
+    if need == "Carbohydrates":
+        return "Carbohydrates" in food["classes"]
+
+    if need == "Healthy fats":
+        return "Healthy fats" in food["classes"]
+
+    if need == "Vitamins":
+        return "Vitamins" in food["classes"]
+
+    if need == "Minerals":
+        return "Minerals" in food["classes"]
+
+    if need == "Fiber":
+        return food["fiber"] >= 3
+
+    return False
+
 
 
 def calculate_score(food, nutrition_goal, activity_type):
@@ -326,6 +348,10 @@ def calculate_score(food, nutrition_goal, activity_type):
         if "Minerals" in food["classes"]:
             score += 1
             reasons.append("Provides minerals")
+
+        if food["fiber"] >= 3:
+           score += 1
+           reasons.append("Provides a good amount of fiber")
 
 
     elif nutrition_goal == "Maintain my current weight":
@@ -418,7 +444,8 @@ for food in foods:
             "benefits": benefits,
             "protein": food["protein"],
             "carbohydrates": food["carbohydrates"],
-            "fat": food["fat"]
+            "fat": food["fat"],
+            "fiber": food["fiber"]
             
         })
 
@@ -483,6 +510,14 @@ for recommendation in recommendations[:3]:
     print(
         "  Fat:",
         recommendation["fat"],
+    
+        "g"
+    )
+
+    print(
+        "  Fiber:",
+        recommendation["fiber"],
+
         "g"
     )
 
